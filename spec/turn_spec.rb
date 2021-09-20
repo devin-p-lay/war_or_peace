@@ -45,7 +45,7 @@ RSpec.describe Turn do
     expect(turn.spoils_of_war).to eq([])
   end
 
-  it "can return the winner of basic turn" do
+  it "can return the winner of :basic turn" do
     card1 = Card.new(:heart, 'Jack', 11)
     card2 = Card.new(:heart, '10', 10)
     cards = [card1, card2]
@@ -60,7 +60,7 @@ RSpec.describe Turn do
     expect(winner).not_to eq(player2)
   end
 
-  it "can return the winner of war turn" do
+  it "can return the winner of :war turn" do
     card1 = Card.new(:heart, 'Jack', 11)
     card2 = Card.new(:heart, '10', 10)
     card3 = Card.new(:heart, '9', 9)
@@ -81,7 +81,7 @@ RSpec.describe Turn do
     expect(winner).not_to eq(player1)
   end
 
- it "can return no winner of 'MAD' turn" do
+ it "can return no winner of :'MAD' turn" do
    card1 = Card.new(:heart, 'Jack', 11)
    card2 = Card.new(:heart, '10', 10)
    card3 = Card.new(:heart, '9', 9)
