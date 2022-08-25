@@ -46,7 +46,7 @@ class Turn
   end
   
   def player2_last_chance
-    player2.deck.cards.last.rank > player2.deck.rank_of_card_at(1) ? @player2 : @player1
+    player2.deck.cards.last.rank > player1.deck.rank_of_card_at(1) ? @player2 : @player1
   end
 
   def basic_winner

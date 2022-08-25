@@ -5,10 +5,11 @@ require './lib/turn'
 
 class Game
   def initialize
-    @deck = []
+    @full_deck = []
     create_deck
-    @player1 = Player.new('Megan', Deck.new(@deck[0..25]))
-    @player2 = Player.new('Aurora', Deck.new(@deck[26..51]))
+    shuffle_and_deal
+    @player1 = Player.new('Megan', @deck1)
+    @player2 = Player.new('Aurora', @deck2)
     @turn = Turn.new(@player1, @player2)
     intro
   end
@@ -33,11 +34,17 @@ class Game
 
     suits.flat_map do |suit|
       ranks_and_values.map do |rank, value|
-        @deck << Card.new(suit, rank, value)
+        @full_deck << Card.new(suit, rank, value)
       end
     end
-    @deck.shuffle!
   end
+
+  def shuffle_and_deal
+    @full_deck.shuffle!
+    @deck1 = Deck.new(@full_deck[0..25])
+    @deck2 = Deck.new(@full_deck[26..51])
+  end
+
   
   def intro
     p "Welcome to War! (or Peace) This game will be played with 52 cards."
@@ -85,7 +92,7 @@ class Game
       p "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
     elsif turn.player2.has_lost?
       p "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
-    elsif counter == 1000
+    elsif counter == 1000 || (turn.player1.has_lost? && turn.player2.has_lost?)
       p "*~*~*~* DRAW *~*~*~*"
     end
   end
