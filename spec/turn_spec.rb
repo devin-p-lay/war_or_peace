@@ -135,10 +135,13 @@ RSpec.describe Turn do
       cards = [@card1,@card2]
 
       turn.pile_cards
+
+      expect(turn.spoils_of_war.count).to eq 2
+
       turn.award_spoils(winner)
 
-      expect(turn.spoils_of_war).to eq cards 
-      expect(player1.deck.cards).to eq cards 
+      expect(turn.spoils_of_war.count).to eq 0
+      expect(player1.deck.cards.count).to eq 2
       expect(player2.deck.cards).to eq [] 
     end
 
@@ -152,11 +155,14 @@ RSpec.describe Turn do
       winner = turn.winner
 
       turn.pile_cards
-      turn.award_spoils(winner)
 
-      expect(turn.spoils_of_war).to eq [@card1, @card2, @card5, @card4, @card3, @card6] 
+      expect(turn.spoils_of_war.count).to eq 6 
+      
+      turn.award_spoils(winner)
+      
+      expect(turn.spoils_of_war.count).to eq 0 
       expect(player1.deck.cards).to eq [@card7] 
-      expect(player2.deck.cards).to eq [@card8, @card1, @card2, @card5, @card4, @card3, @card6] 
+      expect(player2.deck.cards.count).to eq 7 
     end
 
     it "discards the spoils because there is no winner" do

@@ -30,11 +30,23 @@ class Turn
   end
   
   def war_winner
-    if player1.deck.rank_of_card_at(2) > player2.deck.rank_of_card_at(2)
+    if player1.deck.cards.count < 3
+      player1_last_chance
+    elsif player2.deck.cards.count < 3
+      player2_last_chance
+    elsif player1.deck.rank_of_card_at(2) > player2.deck.rank_of_card_at(2)
       @player1
     else
       @player2
     end
+  end
+
+  def player1_last_chance
+    player1.deck.cards.last.rank > player2.deck.rank_of_card_at(1) ? @player1 : @player2
+  end
+  
+  def player2_last_chance
+    player2.deck.cards.last.rank > player2.deck.rank_of_card_at(1) ? @player2 : @player1
   end
 
   def basic_winner
@@ -76,6 +88,7 @@ class Turn
   end
 
   def award_spoils(winner)
-    winner.deck.cards.concat(@spoils_of_war)
+    winner.deck.cards.concat(@spoils_of_war.shuffle)
+    @spoils_of_war = []
   end
 end
